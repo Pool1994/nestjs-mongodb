@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ILead, ITask } from "../interfaces";
-import { HydratedDocument, model } from "mongoose";
+import { HydratedDocument } from "mongoose";
 import { WorkSpace } from "./workspace.schema";
 
 
