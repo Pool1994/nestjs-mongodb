@@ -37,5 +37,7 @@ export class WorkSpace implements IWorkSpace {
 
 }
 export type BaseWorkspaceDocument = HydratedDocument<WorkSpace>;
+
 export const WorkSpaceSchema = SchemaFactory.createForClass(WorkSpace);
+
 export const WORKSPACE_NAME = WorkSpace.name;
