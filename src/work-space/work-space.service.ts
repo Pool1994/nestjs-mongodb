@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { get, Model } from 'mongoose';
 import { APPOINTMENT_NAME, AppointmentDocument, MEETING_NAME, MeetingDocument, Task, TASK_NAME, TaskDocument } from './schemas';
-import { ITask, TMettingMode, TWorkSpaceType } from './interfaces';
+import { IAppointment, IBaseWorkspace, ITask, IWorkSpace, TMettingMode, TWorkSpaceType } from './interfaces';
 import { Event, EventDocument } from 'src/events/schema/events.schema';
 
 @Injectable()
@@ -17,18 +17,21 @@ export class WorkSpaceService {
     ) {
 
     }
-    async listAppointments(params: { start_date: string, end_date: string,type:"LEAD"|"CLIENT"|"GENERAL" }) {
+    private setDataWorkSpace(data: IBaseWorkspace) {
+
+    }
+    async listAppointments(params: { start_date: string, end_date: string, type: "LEAD" | "CLIENT" | "GENERAL" }) {
 
         const start_date = new Date(`${params.start_date}T00:00:00.000Z`);
         const end_date = new Date(`${params.end_date}T00:00:00.000Z`);
         const appointments = await this.appointModel.find({
-            start_time:{$gte:start_date,$lt:end_date},
-            end_time:{$gte:start_date,$lt:end_date},
-            type:params.type
+            start_time: { $gte: start_date, $lt: end_date },
+            end_time: { $gte: start_date, $lt: end_date },
+            type: params.type
         }).exec();
         return {
-            total:appointments.length,
-            data:appointments
+            total: appointments.length,
+            data: appointments
         };
     }
     async listTasks() {
@@ -41,56 +44,80 @@ export class WorkSpaceService {
     }
     async createAppointment() {
         const dataRegister = this.getDataForDay();
-        const _type: Array<TWorkSpaceType> = ['GENERAL', 'CLIENT', 'LEAD'];
+        const _type: Array<TWorkSpaceType> = [TWorkSpaceType.Client, TWorkSpaceType.Lead, TWorkSpaceType.General];
         const events = (await this.eventModel.find()).flatMap(event => event._id);
-        dataRegister.forEach(async (element, index) => {
-            const event_id = events[Math.floor(Math.random() * events.length)];
-            const type = _type[Math.floor(Math.random() * _type.length)];
-            await this.appointModel.create({
-                event_id,
-                type,
-                title: `Appointment ${index}`,
-                description: `Appointment Description for appointment ${index}`,
-                start_time: element.date,
-                end_time: element.date,
-                files: [
-                    {
-                        name: 'file1.pdf',
-                        mimetype: 'application/pdf',
-                        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.google.com&psig=AOvVaw2-9m-1-w-t-4-3-0-g-6-AA&ust=1636560898002000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDr-7z9z4CFQAAAAAdAAAAABAD'
-                    },
-                    {
-                        name: 'file2.pdf',
-                        mimetype: 'application/pdf',
-                        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.google.com&psig=AOvVaw2-9m-1-w-t-4-3-0-g-6-AA&ust=1636560898002000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDr-7z9z4CFQAAAAAdAAAAABAD'
-                    }
-                ],
-                lead: {
-                    name: 'Pedro',
-                    email: 'pedro@gmail.com',
-                    phone: '+55 00 0000 0000'
-                },
-                tracking: [
-                    {
-                        name: 'Pedro',
-                        email: 'pedro@gmail.com',
-                        phone: '+55 00 0000 0000'
-                    },
-                    {
-                        name: 'Carlos',
-                        email: 'carlos@gmail.com',
-                        phone: '+55 00 0000 0000'
-                    }
-                ],
-                is_completed: false,
-                deleted_at: null
-            })
-        })
+        const event_id = events[Math.floor(Math.random() * events.length)] as string;
+        const type = _type[Math.floor(Math.random() * _type.length)];
+        const ddd: IWorkSpace = {
+            title: `Appointment ${Math.floor(Math.random() * 100)}`,
+            description: `Appointment Description for appointment ${Math.floor(Math.random() * 100)}`,
+            start_time: new Date(),
+            end_time: new Date(),
+            files: [],
+            is_completed: false,
+            tracking: [],
+            type,
+        }
+        const appointment: IAppointment = {
+            ...ddd,
+            event_id,
+            lead: {
+                name: 'Pedro',
+                id: 1,
+                mobile: '+55 00 0000 0000',
+            }
+        };
+        await this.appointModel.create({
+
+        });
+        // dataRegister.forEach(async (element, index) => {
+        //     const event_id = events[Math.floor(Math.random() * events.length)];
+        //     const type = _type[Math.floor(Math.random() * _type.length)];
+        //     await this.appointModel.create({
+        //         event_id,
+        //         type,
+        //         title: `Appointment ${index}`,
+        //         description: `Appointment Description for appointment ${index}`,
+        //         start_time: element.date,
+        //         end_time: element.date,
+        //         files: [
+        //             {
+        //                 name: 'file1.pdf',
+        //                 mimetype: 'application/pdf',
+        //                 url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.google.com&psig=AOvVaw2-9m-1-w-t-4-3-0-g-6-AA&ust=1636560898002000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDr-7z9z4CFQAAAAAdAAAAABAD'
+        //             },
+        //             {
+        //                 name: 'file2.pdf',
+        //                 mimetype: 'application/pdf',
+        //                 url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.google.com&psig=AOvVaw2-9m-1-w-t-4-3-0-g-6-AA&ust=1636560898002000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDr-7z9z4CFQAAAAAdAAAAABAD'
+        //             }
+        //         ],
+        //         lead: {
+        //             name: 'Pedro',
+        //             email: 'pedro@gmail.com',
+        //             phone: '+55 00 0000 0000'
+        //         },
+        //         tracking: [
+        //             {
+        //                 name: 'Pedro',
+        //                 email: 'pedro@gmail.com',
+        //                 phone: '+55 00 0000 0000'
+        //             },
+        //             {
+        //                 name: 'Carlos',
+        //                 email: 'carlos@gmail.com',
+        //                 phone: '+55 00 0000 0000'
+        //             }
+        //         ],
+        //         is_completed: false,
+        //         deleted_at: null
+        //     })
+        // })
     }
     async createMeeting() {
         const dataRegister = this.getDataForDay();
-        const mettingModel: Array<TMettingMode> = ['VIRTUAL', 'HYBRID', 'IN PERSON'];
-        const _type: Array<TWorkSpaceType> = ['GENERAL', 'CLIENT', 'LEAD'];
+        const mettingModel: Array<TMettingMode> = [TMettingMode.InPerson, TMettingMode.Virtual, TMettingMode.Hybrid];
+        const _type: Array<TWorkSpaceType> = [TWorkSpaceType.Client, TWorkSpaceType.Lead, TWorkSpaceType.General];
         dataRegister.forEach(async (element, index) => {
             const meeting_mode = mettingModel[Math.floor(Math.random() * mettingModel.length)];
             const type = _type[Math.floor(Math.random() * _type.length)];
@@ -150,7 +177,7 @@ export class WorkSpaceService {
     }
     async createTask() {
         const dataRegister = this.getDataForDay();
-        const _type: Array<TWorkSpaceType> = ['GENERAL', 'CLIENT', 'LEAD'];
+        const _type: Array<TWorkSpaceType> = [TWorkSpaceType.Client, TWorkSpaceType.Lead, TWorkSpaceType.General];
         dataRegister.forEach(async (element, index) => {
             const type = _type[Math.floor(Math.random() * _type.length)];
             await this.taskModel.create({

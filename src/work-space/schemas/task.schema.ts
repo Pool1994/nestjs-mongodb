@@ -6,7 +6,7 @@ import { WorkSpace } from "./workspace.schema";
 
 @Schema()
 export class Task extends WorkSpace implements ITask {
-    @Prop({ required: false, type: Object })
+    @Prop({ required: true, type: Object })
     lead: ILead;
 }
 export type TaskDocument = HydratedDocument<Task>;

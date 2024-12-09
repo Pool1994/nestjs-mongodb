@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { IBaseWorkspace, IFiles, ITracking, TWorkSpaceType } from "../interfaces";
+import { IFiles, ITracking, IWorkSpace, TWorkSpaceType } from "../interfaces";
 import { HydratedDocument } from "mongoose";
 
 
 @Schema({ discriminatorKey: 'workspaceKind', timestamps: true })
-export class WorkSpace implements IBaseWorkspace {
+export class WorkSpace implements IWorkSpace {
     @Prop({
-        required: true
+        required: true,
+        enum: TWorkSpaceType,
     })
     type: TWorkSpaceType;
 
@@ -22,10 +23,10 @@ export class WorkSpace implements IBaseWorkspace {
     @Prop({ required: true })
     end_time: Date;
 
-    @Prop({ default: [] })
+    @Prop({ required: false, default: [], type: Array<IFiles> })
     files: Array<IFiles>;
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: Array<ITracking> })
     tracking: Array<ITracking>;
 
     @Prop({ required: true })
@@ -34,8 +35,6 @@ export class WorkSpace implements IBaseWorkspace {
     @Prop({ required: false, default: null })
     deleted_at?: Date; // opcional
 
-    // @Prop({ required: true,immutable: true })
-    // workspaceKind: string;
 }
 export type BaseWorkspaceDocument = HydratedDocument<WorkSpace>;
 export const WorkSpaceSchema = SchemaFactory.createForClass(WorkSpace);

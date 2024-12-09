@@ -8,7 +8,7 @@ export class Appointment extends WorkSpace implements IAppointment {
     @Prop({ required: true })
     event_id: string;
 
-    @Prop({ required: false, type: Object })
+    @Prop({ required: true, type: Object })
     lead: ILead;
 }
 

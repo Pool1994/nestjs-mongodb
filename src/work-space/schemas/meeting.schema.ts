@@ -10,7 +10,7 @@ export class Meeting extends WorkSpace implements IMeeting {
     @Prop({ required: true })
     meeting_id: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true,enum:TMettingMode })
     meeting_mode: TMettingMode;
 
     @Prop({ required: true })

@@ -1,9 +1,14 @@
-import { IBaseWorkspace } from "./IBaseWorkspace";
+import { IWorkSpace } from "./IBaseWorkspace";
 import { IParticipants } from "./resources-interface";
 
-export type TMettingMode = "IN PERSON" | "VIRTUAL" | "HYBRID";
-export interface IMeeting extends IBaseWorkspace {
+export enum TMettingMode  {
+    InPerson = "IN PERSON",
+    Virtual = "VIRTUAL",
+    Hybrid = "HYBRID",
+}
+export interface IMeeting extends IWorkSpace {
     meeting_id: string;
     meeting_mode: TMettingMode;
     participants: Array<IParticipants>;
 }
+export type IMeetingDto = Omit<IMeeting, "deleted_at" | "files" | "tracking">;
