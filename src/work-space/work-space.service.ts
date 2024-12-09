@@ -121,7 +121,7 @@ export class WorkSpaceService {
         dataRegister.forEach(async (element, index) => {
             const meeting_mode = mettingModel[Math.floor(Math.random() * mettingModel.length)];
             const type = _type[Math.floor(Math.random() * _type.length)];
-            await this.meetingModel.create({
+            const  xx = new  this.meetingModel({
                 meeting_id: `M00-${index + 1}`,
                 meeting_mode,
                 type,
@@ -129,17 +129,13 @@ export class WorkSpaceService {
                 description: `Meeting Description for metting ${index}`,
                 start_time: element.date,
                 end_time: element.date,
-                participants: [
+                participants:[
                     {
-                        name: 'Pedro',
-                        email: 'pedro@gmail.com',
-                        phone: '+55 00 0000 0000'
+                        id: 1,
+                        name: 19958,
+                        created_at: new Date()
                     },
-                    {
-                        name: 'Carlos',
-                        email: 'carlos@gmail.com',
-                        phone: '+55 00 0000 0000'
-                    }
+                    
                 ],
                 files: [
                     {
@@ -173,6 +169,7 @@ export class WorkSpaceService {
                 is_completed: false,
                 deleted_at: null
             })
+            xx.save();
         })
     }
     async createTask() {
