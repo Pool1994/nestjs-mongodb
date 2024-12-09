@@ -7,7 +7,7 @@ import { CallLogModule } from './call-log/call-log.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/nest-mongodb'),
+    MongooseModule.forRoot('mongodb://localhost:27017/dbtodo'),
     WorkSpaceModule,
     EventsModule,
     CallLogModule

@@ -53,18 +53,6 @@ export class WorkSpaceService {
                 description: `Appointment Description for appointment ${index}`,
                 start_time: element.date,
                 end_time: element.date,
-                participants: [
-                    {
-                        name: 'Pedro',
-                        email: 'pedro@gmail.com',
-                        phone: '+55 00 0000 0000'
-                    },
-                    {
-                        name: 'Carlos',
-                        email: 'carlos@gmail.com',
-                        phone: '+55 00 0000 0000'
-                    }
-                ],
                 files: [
                     {
                         name: 'file1.pdf',
@@ -171,18 +159,6 @@ export class WorkSpaceService {
                 description: `Task Description for task ${index}`,
                 start_time: element.date,
                 end_time: element.date,
-                participants: [
-                    {
-                        name: 'Pedro',
-                        email: 'pedro@gmail.com',
-                        phone: '+55 00 0000 0000'
-                    },
-                    {
-                        name: 'Carlos',
-                        email: 'carlos@gmail.com',
-                        phone: '+55 00 0000 0000'
-                    }
-                ],
                 files: [
                     {
                         name: 'file1.pdf',

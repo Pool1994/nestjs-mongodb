@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { IBaseWorkspace, IFiles, ILead, IParticipants, ITracking, TWorkSpaceType } from "../interfaces";
+import { IBaseWorkspace, IFiles, ITracking, TWorkSpaceType } from "../interfaces";
 import { HydratedDocument } from "mongoose";
 
 
@@ -9,9 +9,6 @@ export class WorkSpace implements IBaseWorkspace {
         required: true
     })
     type: TWorkSpaceType;
-
-    @Prop({ required: true, type: Object })
-    lead: ILead;
 
     @Prop({ required: true })
     title: string;
@@ -27,9 +24,6 @@ export class WorkSpace implements IBaseWorkspace {
 
     @Prop({ default: [] })
     files: Array<IFiles>;
-
-    @Prop({ default: [] })
-    participants: Array<IParticipants>;
 
     @Prop({ required: true })
     tracking: Array<ITracking>;

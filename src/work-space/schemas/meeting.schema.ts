@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { IFiles, ILead, IMeeting, IParticipants, ITracking, TMettingMode, TWorkSpaceType } from "../interfaces";
-import { HydratedDocument, model } from "mongoose";
+import { IMeeting, IParticipants, TMettingMode } from "../interfaces";
+import { HydratedDocument } from "mongoose";
 import { WorkSpace } from "./workspace.schema";
 
 
@@ -12,6 +12,9 @@ export class Meeting extends WorkSpace implements IMeeting {
 
     @Prop({ required: true })
     meeting_mode: TMettingMode;
+
+    @Prop({ required: true })
+    participants: IParticipants[];
 }
 
 export type MeetingDocument = HydratedDocument<Meeting>;
