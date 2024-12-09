@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ILead, ITask, ITaskDto } from "../interfaces";
+import { ILead, ITaskDto } from "../interfaces";
 import { WorkspaceDto } from "./workspace.dto";
 import { LeadWorkspaceDto } from "./lead-worspace.dto";
 
