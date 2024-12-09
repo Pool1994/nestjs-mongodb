@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { IFiles, ITracking, IWorkSpace, TWorkSpaceType } from "../interfaces";
+import { IFiles, ITracking, IWorkSpace, TWorkSpaceStatus, TWorkSpaceType } from "../interfaces";
 import { HydratedDocument } from "mongoose";
 
 
@@ -29,8 +29,8 @@ export class WorkSpace implements IWorkSpace {
     @Prop({ required: true, type: Array<ITracking> })
     tracking: Array<ITracking>;
 
-    @Prop({ required: true })
-    is_completed: boolean;
+    @Prop({ required: true ,enum:TWorkSpaceStatus})
+    status: TWorkSpaceStatus;
 
     @Prop({ required: false, default: null })
     deleted_at?: Date; // opcional

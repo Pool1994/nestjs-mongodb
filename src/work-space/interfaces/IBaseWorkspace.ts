@@ -9,6 +9,10 @@ export enum TWorkSpaceType {
     Lead = "LEAD",
 };
 
+export enum TWorkSpaceStatus {
+    Pending = "PENDING",
+    Completed = "COMPLETED",
+}
 export interface IBaseWorkspace {
     _id: string;
     type: TWorkSpaceType;
@@ -18,7 +22,7 @@ export interface IBaseWorkspace {
     end_time: Date;
     files: Array<IFiles>;
     tracking: Array<ITracking>;
-    is_completed: boolean;
+    status: TWorkSpaceStatus;
     deleted_at?: Date; // opcional
 }
 export type IWorkSpace = Omit<IBaseWorkspace, "_id">;
